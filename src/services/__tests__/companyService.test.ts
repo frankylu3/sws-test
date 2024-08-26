@@ -2,7 +2,7 @@ import { CompanyRepository } from "../../repositories/companyRepository";
 import { CompanyService } from "../companyService";
 import { calculateVolatility } from "../../utils/volatility";
 
-// Mock the CompanyRepository
+// mock volatility calculation
 jest.mock("../../utils/volatility", () => ({
   calculateVolatility: jest.fn(),
 }));
@@ -10,6 +10,7 @@ const mockCalculateVolatility = calculateVolatility as jest.MockedFunction<
   typeof calculateVolatility
 >;
 
+// mock the CompanyRepository
 const companies = [
   {
     id: "uuid-1",
