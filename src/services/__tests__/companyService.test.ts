@@ -79,17 +79,42 @@ describe("findCompanies", () => {
   const companyService = new CompanyService(mockCompanyRepository);
   it("should not calculate volatility when not sorting by volatility and return companies", async () => {
     mockFindCompanies.mockResolvedValue(companies);
-    const result = await companyService.findCompanies();
+    await companyService.findCompanies(
+      {
+        exchangeSymbols: ["ASX"],
+      },
+      { sortBy: "score", sortOrder: "ASC" }
+    );
 
+    expect(mockFindCompanies).toHaveBeenCalledTimes(1);
+    expect(mockFindCompanies).toHaveBeenCalledWith(
+      {
+        exchangeSymbols: ["ASX"],
+      },
+      { sortBy: "score", sortOrder: "ASC" }
+    );
     expect(mockCalculateVolatility).toHaveBeenCalledTimes(0);
   });
   it("should calculate volatility and return in ascending order", async () => {
     mockCalculateVolatility.mockReturnValueOnce(0.5).mockReturnValueOnce(0.3);
     mockFindCompanies.mockResolvedValue(companies);
-    const result = await companyService.findCompanies(null, {
-      sortBy: "volatility",
-      sortOrder: "ASC",
-    });
+    const result = await companyService.findCompanies(
+      {
+        exchangeSymbols: ["ASX"],
+      },
+      {
+        sortBy: "volatility",
+        sortOrder: "ASC",
+      }
+    );
+
+    expect(mockFindCompanies).toHaveBeenCalledTimes(1);
+    expect(mockFindCompanies).toHaveBeenCalledWith(
+      {
+        exchangeSymbols: ["ASX"],
+      },
+      { sortBy: "volatility", sortOrder: "ASC" }
+    );
 
     expect(mockCalculateVolatility).toHaveBeenCalledTimes(2);
     expect(result[0].id).toEqual("uuid-2");
@@ -98,10 +123,23 @@ describe("findCompanies", () => {
   it("should calculate volatility and return in descending order", async () => {
     mockCalculateVolatility.mockReturnValueOnce(0.5).mockReturnValueOnce(0.3);
     mockFindCompanies.mockResolvedValue(companies);
-    const result = await companyService.findCompanies(null, {
-      sortBy: "volatility",
-      sortOrder: "DESC",
-    });
+    const result = await companyService.findCompanies(
+      {
+        exchangeSymbols: ["ASX"],
+      },
+      {
+        sortBy: "volatility",
+        sortOrder: "DESC",
+      }
+    );
+
+    expect(mockFindCompanies).toHaveBeenCalledTimes(1);
+    expect(mockFindCompanies).toHaveBeenCalledWith(
+      {
+        exchangeSymbols: ["ASX"],
+      },
+      { sortBy: "volatility", sortOrder: "DESC" }
+    );
 
     expect(mockCalculateVolatility).toHaveBeenCalledTimes(2);
     expect(result[0].id).toEqual("uuid-1");
@@ -109,10 +147,23 @@ describe("findCompanies", () => {
   });
   it("should handle no results", async () => {
     mockFindCompanies.mockResolvedValue([]);
-    const result = await companyService.findCompanies(null, {
-      sortBy: "volatility",
-      sortOrder: "DESC",
-    });
+    const result = await companyService.findCompanies(
+      {
+        exchangeSymbols: ["ASX"],
+      },
+      {
+        sortBy: "volatility",
+        sortOrder: "DESC",
+      }
+    );
+
+    expect(mockFindCompanies).toHaveBeenCalledTimes(1);
+    expect(mockFindCompanies).toHaveBeenCalledWith(
+      {
+        exchangeSymbols: ["ASX"],
+      },
+      { sortBy: "volatility", sortOrder: "DESC" }
+    );
 
     expect(mockCalculateVolatility).toHaveBeenCalledTimes(0);
     expect(result).toHaveLength(0);
