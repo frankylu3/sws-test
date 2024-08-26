@@ -28,6 +28,32 @@ describe("getCompanies", () => {
       error: "scores must be between 0 and 30 inclusive",
     });
   });
+  it("should return 400 if minScore is greater than 30", async () => {
+    const req = {
+      query: {
+        minScore: "35",
+      },
+    } as unknown as Request;
+    await companyContoller.getCompanies(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.json).toHaveBeenCalledWith({
+      error: "scores must be between 0 and 30 inclusive",
+    });
+  });
+  it("should return 400 if maxScore is less than 0", async () => {
+    const req = {
+      query: {
+        maxScore: "-4",
+      },
+    } as unknown as Request;
+    await companyContoller.getCompanies(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.json).toHaveBeenCalledWith({
+      error: "scores must be between 0 and 30 inclusive",
+    });
+  });
   it("should return 400 if maxScore is greater than 30", async () => {
     const req = {
       query: {

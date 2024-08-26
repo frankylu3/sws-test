@@ -1,8 +1,8 @@
 /**
  * Function to calculate historical volatility
- * and returns
+ *
  * @param prices The list of prices to calculate (assumed sorted from furthest date to closest)
- * @returns the coefficient of variation for voltaility (ratio of the standard deviation to the mean)
+ * @returns the coefficient of variation for volatility (ratio of the standard deviation to the mean)
  */
 
 export function calculateVolatility(prices: number[]): number {

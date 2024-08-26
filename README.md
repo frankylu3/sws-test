@@ -91,7 +91,7 @@ Node v18
 ]
 ```
 
-## If I had more time
+## Future considerations
 
 - Implement pagination on the endpoint - this would be help improve performance by reducing the amount of data being loaded at one time and limit it to the amount required by the page using the API.
 - Write integration test for the endpoint - test the application as a whole end to end.

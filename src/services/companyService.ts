@@ -42,19 +42,24 @@ export class CompanyService {
         dividend: company.score.dividend,
         total: company.score.total,
       },
-      last_known_price: company.closing_prices
-        ? company.closing_prices[company.closing_prices.length - 1].price
-        : null,
-      prices: company.closing_prices
-        ? company.closing_prices.map((price) => ({
-            date: price.date,
-            price: price.price,
-          }))
-        : [],
+      last_known_price:
+        company.closing_prices.length > 0
+          ? company.closing_prices[company.closing_prices.length - 1].price
+          : null,
+      prices:
+        company.closing_prices.length > 0
+          ? company.closing_prices.map((price) => ({
+              date: price.date,
+              price: price.price,
+            }))
+          : [],
     }));
   }
 
   getPrices(priceData: CompanyPriceClose[]) {
+    if (priceData.length === 0) {
+      return [];
+    }
     return priceData.map((price) => price.price);
   }
 
@@ -67,7 +72,6 @@ export class CompanyService {
     if (sort && sort.sortBy === "volatility") {
       const companiesWithVolatility = companies.map((company) => {
         const closing_prices = this.getPrices(company.closing_prices);
-
         const volatility = calculateVolatility(closing_prices);
         return { ...company, volatility };
       });

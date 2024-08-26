@@ -84,7 +84,7 @@ export class CompanyController {
       return res.status(400).json({ error: "invalid sortOrder parameter" });
     }
 
-    let sortOptions: CompanyListSortOptions = {
+    const sortOptions: CompanyListSortOptions = {
       sortBy: sortBy as string,
       sortOrder: sortOrder === "asc" ? "ASC" : "DESC",
     };

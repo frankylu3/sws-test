@@ -24,6 +24,7 @@ export class CompanyRepository extends Repository<Company> {
     }
 
     if (filters.scoreRange) {
+      // inner join to ignore companies without a score
       queryBuilder.innerJoinAndSelect("company.score", "score");
 
       if (filters.scoreRange.min) {
@@ -38,6 +39,7 @@ export class CompanyRepository extends Repository<Company> {
         });
       }
     } else {
+      // still want to return the scores even if not filtering by score
       queryBuilder.leftJoinAndSelect("company.score", "score");
     }
 
@@ -47,13 +49,23 @@ export class CompanyRepository extends Repository<Company> {
       }
     }
 
+    // get the past 90 days worth of closing price data
     queryBuilder
       .leftJoinAndSelect(
         "company.closing_prices",
         "closing_price",
-        'closing_price.date >= DATE("2020-04-16", "-90 days")'
+        'closing_price.date >= DATE("NOW", "-90 days")'
       )
       .addOrderBy("closing_price.date", "ASC");
+
+    // this was used to test prices being returned and calculating volatility. (replacing the above lines 53-59)
+    // queryBuilder
+    //   .leftJoinAndSelect(
+    //     "company.closing_prices",
+    //     "closing_price",
+    //     'closing_price.date >= DATE("2020-04-16", "-90 days")'
+    //   )
+    //   .addOrderBy("closing_price.date", "ASC");
 
     const companies = await queryBuilder.getMany();
     return companies;
