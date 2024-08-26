@@ -6,7 +6,19 @@ A take home exercise conducted for Simply Wall St. Backend implementation using 
 
 ## Prerequisites
 
-Node v18
+Ensure you have at least node version 18 installed.
+
+## Getting Started
+```
+# Clone the repository
+git clone https://github.com/frankylu3/sws-test.git
+
+# Navigate to the project directory
+cd sws-test
+
+# Install dependencies
+npm install
+```
 
 ## Usage
 
@@ -32,6 +44,7 @@ Node v18
 - `sortOrder`: The order to sort by
 
 **Example Request:**
+
 `curl --location 'localhost:3000/company/list?minScore=13&maxScore=18&sortBy=volatility&sortOrder=asc&exchangeSymbol=ASX%2CNYSE'`
 
 **Example Repsonse**:
